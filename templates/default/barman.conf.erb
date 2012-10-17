@@ -1,0 +1,20 @@
+[barman]
+; Main directory
+barman_home = <%= node['pgbarman']['home'] %> 
+
+; Log location
+log_file = /var/log/barman/barman.log
+
+; Default compression level: possible values are None (default), bzip2, gzip or custom
+;compression = gzip
+
+; 'main' PostgreSQL Server configuration
+[main]
+; Human readable description
+description =  "Main PostgreSQL Database"
+
+; SSH options
+ssh_command = ssh <%=  "#{node['pgbarman']['ssh']['user']}@#{node['pgbarman']['ssh']['host']}" %>
+
+; PostgreSQL connection string
+conninfo = host=<%= node['pgbarman']['postgres']['host'] %> user=<%= node['pgbarman']['postgres']['host'] %>

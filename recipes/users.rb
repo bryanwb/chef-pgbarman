@@ -22,7 +22,7 @@ include_recipe "sudo"
 pgbarman_user = "barman"
 
 unless Chef::Config[:solo]
-  users_manage pgbarman_user do
+  users_manage_noid pgbarman_user do
     action [ :remove, :create ]
   end
 end

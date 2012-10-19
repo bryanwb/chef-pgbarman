@@ -22,6 +22,23 @@ include_recipe "sudo"
 pgbarman_user = "barman"
 
 unless Chef::Config[:solo]
+
+  ssh_keys = data_bag_item("users", "barman")['ssh_keys']
+
+  directory "/home/barman/.ssh" do
+    owner "barman"
+    group "barman"
+    mode "0700"
+  end
+
+  template "/home/barman/.ssh/authorized_keys" do
+    source "authorized_keys.erb"
+    variables :ssh_keys => ssh_keys
+    owner "barman"
+    group "barman"
+    mode "0600"
+  end
+  
   users_manage_noid pgbarman_user do
     action [ :remove, :create ]
   end

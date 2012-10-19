@@ -24,6 +24,7 @@ include_recipe "ark"
 
 user "barman"
 
+  
 %w{ python-psycopg2 python-dateutil python-argparse }.each do |pkg|
   package pkg
 end

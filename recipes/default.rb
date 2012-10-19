@@ -58,5 +58,6 @@ template "/etc/barman.conf" do
   group "barman"
   source "barman.conf.erb"
   mode "0775"
+  action :create_if_missing
 #  notifies :action, "service[barman]"
 end

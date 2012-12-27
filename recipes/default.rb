@@ -18,7 +18,7 @@
 #
 
 include_recipe "yum::epel"
-include_recipe "yumrepo::postgresql9"
+include_recipe "yumrepo::postgresql"
 include_recipe "postgresql::client"
 include_recipe "ark"
 

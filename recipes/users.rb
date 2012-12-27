@@ -18,13 +18,17 @@
 #
 
 include_recipe "sudo"
+include_recipe "mail_alias"
 
 pgbarman_user = "barman"
 
 unless Chef::Config[:solo]
 
   ssh_keys = data_bag_item("users", "barman")['ssh_keys']
-
+  barman_users = search(:users, "groups:barman").map{|u| u.id }
+  top_level_domain =  node['domain'].split('.')[-2..-1].join('.')
+  barman_users = barman_users.map {|u| "#{u}@#{top_level_domain}" }
+  
   directory "/home/barman/.ssh" do
     owner "barman"
     group "barman"
@@ -42,6 +46,11 @@ unless Chef::Config[:solo]
   users_manage_noid pgbarman_user do
     action [ :remove, :create ]
   end
+
+  mail_alias "barman" do
+    recipients barman_users
+  end
+  
 end
 
 if Chef::Config[:solo]
